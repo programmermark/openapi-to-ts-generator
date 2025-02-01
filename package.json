@@ -1,0 +1,105 @@
+{
+  "name": "@cmschina-frame/openapi-ts",
+  "version": "0.0.2",
+  "description": "The OpenAPI to TypeScript codegen. Generate clients, SDKs, validators, and more.",
+  "license": "MIT",
+  "author": {
+    "name": "zhonghui2",
+    "email": "zhonghui2@cmschina.com.cn"
+  },
+  "publishConfig": {
+    "registry": "http://artifacts.cmschina.com.cn/artifactory/api/npm/cmschina-npm-dev-local/"
+  },
+  "keywords": [
+    "angular",
+    "axios",
+    "codegen",
+    "fetch",
+    "generator",
+    "http",
+    "javascript",
+    "json",
+    "node",
+    "openapi",
+    "rest",
+    "swagger",
+    "typescript",
+    "xhr",
+    "yaml"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "check-exports": "attw --pack .",
+    "dev": "tsup --watch",
+    "prepublishOnly": "pnpm build",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": "^18.20.5 || ^20.11.1 || >=22.11.0"
+  },
+  "dependencies": {
+    "@hey-api/json-schema-ref-parser": "1.0.1",
+    "commander": "13.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.5.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "19.0.6",
+    "@angular/animations": "19.0.5",
+    "@angular/cli": "19.0.6",
+    "@angular/common": "19.0.5",
+    "@angular/compiler": "19.0.5",
+    "@angular/compiler-cli": "19.0.5",
+    "@angular/core": "19.0.5",
+    "@angular/forms": "19.0.5",
+    "@angular/platform-browser": "19.0.5",
+    "@angular/platform-browser-dynamic": "19.0.5",
+    "@angular/router": "19.0.5",
+    "@hey-api/client-axios": "0.5.0",
+    "@hey-api/client-fetch": "0.7.0",
+    "@tanstack/angular-query-experimental": "5.62.13",
+    "@tanstack/react-query": "5.62.15",
+    "@tanstack/solid-query": "5.51.21",
+    "@tanstack/svelte-query": "5.62.12",
+    "@tanstack/vue-query": "5.62.12",
+    "@types/cross-spawn": "6.0.6",
+    "@types/express": "4.17.21",
+    "axios": "1.7.9",
+    "cross-spawn": "7.0.5",
+    "eslint": "9.17.0",
+    "express": "4.21.0",
+    "fastify": "5.2.0",
+    "glob": "10.4.3",
+    "node-fetch": "3.3.2",
+    "prettier": "3.4.2",
+    "puppeteer": "22.12.1",
+    "rxjs": "7.8.1",
+    "ts-node": "10.9.2",
+    "tslib": "2.8.1",
+    "tsup": "^8.3.5",
+    "typescript": "5.5.3",
+    "zod": "3.23.8"
+  }
+}
