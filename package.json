@@ -1,15 +1,8 @@
 {
-  "name": "@cmschina-frame/openapi-ts",
-  "version": "0.0.2",
+  "name": "@fudai/openapi-ts-generator",
+  "version": "0.0.1",
   "description": "The OpenAPI to TypeScript codegen. Generate clients, SDKs, validators, and more.",
-  "license": "MIT",
-  "author": {
-    "name": "zhonghui2",
-    "email": "zhonghui2@cmschina.com.cn"
-  },
-  "publishConfig": {
-    "registry": "http://artifacts.cmschina.com.cn/artifactory/api/npm/cmschina-npm-dev-local/"
-  },
+  "private": false,
   "keywords": [
     "angular",
     "axios",
@@ -27,8 +20,9 @@
     "xhr",
     "yaml"
   ],
+  "author": "zhonghui <1126765590@qq.com>",
+  "license": "MIT",
   "type": "module",
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -59,8 +53,7 @@
     "node": "^18.20.5 || ^20.11.1 || >=22.11.0"
   },
   "dependencies": {
-    "@hey-api/json-schema-ref-parser": "1.0.1",
-    "commander": "13.0.0"
+    "@hey-api/json-schema-ref-parser": "1.0.1"
   },
   "peerDependencies": {
     "typescript": "^5.5.3"
