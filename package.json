@@ -1,5 +1,5 @@
 {
-  "name": "@fudai/openapi-ts-generator",
+  "name": "openapi-to-ts-generator",
   "version": "0.0.1",
   "description": "The OpenAPI to TypeScript codegen. Generate clients, SDKs, validators, and more.",
   "private": false,
