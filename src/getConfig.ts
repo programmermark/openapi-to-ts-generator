@@ -1,21 +1,21 @@
-import type { ClientPlugins, UserPlugins } from './plugins';
-import { defaultPluginConfigs } from './plugins';
+import type { ClientPlugins, UserPlugins } from "./plugins";
+import { defaultPluginConfigs } from "./plugins";
 import type {
   AnyPluginName,
   DefaultPluginConfigs,
   PluginContext,
   PluginNames,
-} from './plugins/types';
-import type { ClientConfig, Config, UserConfig } from './types/config';
-import { CLIENTS } from './types/config';
-import { isLegacyClient, setConfig } from './utils/config';
+} from "./plugins/types";
+import type { ClientConfig, Config, UserConfig } from "./types/config";
+import { CLIENTS } from "./types/config";
+import { isLegacyClient, setConfig } from "./utils/config";
 
-const getClient = (userConfig: ClientConfig): Config['client'] => {
-  let client: Config['client'] = {
+const getClient = (userConfig: ClientConfig): Config["client"] => {
+  let client: Config["client"] = {
     bundle: false,
-    name: '' as Config['client']['name'],
+    name: "" as Config["client"]["name"],
   };
-  if (typeof userConfig.client === 'string') {
+  if (typeof userConfig.client === "string") {
     client.name = userConfig.client;
   } else if (userConfig.client) {
     client = {
@@ -26,11 +26,11 @@ const getClient = (userConfig: ClientConfig): Config['client'] => {
   return client;
 };
 
-const getInput = (userConfig: ClientConfig): Config['input'] => {
-  let input: Config['input'] = {
-    path: '',
+const getInput = (userConfig: ClientConfig): Config["input"] => {
+  let input: Config["input"] = {
+    path: "",
   };
-  if (typeof userConfig.input === 'string') {
+  if (typeof userConfig.input === "string") {
     input.path = userConfig.input;
   } else if (userConfig.input && userConfig.input.path) {
     input = {
@@ -46,12 +46,12 @@ const getInput = (userConfig: ClientConfig): Config['input'] => {
   return input;
 };
 
-const getLogs = (userConfig: ClientConfig): Config['logs'] => {
-  let logs: Config['logs'] = {
-    level: 'info',
-    path: process.cwd(),
+const getLogs = (userConfig: ClientConfig): Config["logs"] => {
+  let logs: Config["logs"] = {
+    level: "info",
+    path: "",
   };
-  if (typeof userConfig.logs === 'string') {
+  if (typeof userConfig.logs === "string") {
     logs.path = userConfig.logs;
   } else {
     logs = {
@@ -62,14 +62,14 @@ const getLogs = (userConfig: ClientConfig): Config['logs'] => {
   return logs;
 };
 
-const getOutput = (userConfig: ClientConfig): Config['output'] => {
-  let output: Config['output'] = {
+const getOutput = (userConfig: ClientConfig): Config["output"] => {
+  let output: Config["output"] = {
     clean: true,
     format: false,
     lint: false,
-    path: '',
+    path: "",
   };
-  if (typeof userConfig.output === 'string') {
+  if (typeof userConfig.output === "string") {
     output.path = userConfig.output;
   } else {
     output = {
@@ -87,11 +87,11 @@ const getPluginsConfig = ({
 }: {
   pluginConfigs: DefaultPluginConfigs<ClientPlugins>;
   userPlugins: ReadonlyArray<AnyPluginName>;
-  userPluginsConfig: Config['plugins'];
-}): Pick<Config, 'plugins' | 'pluginOrder'> => {
+  userPluginsConfig: Config["plugins"];
+}): Pick<Config, "plugins" | "pluginOrder"> => {
   const circularReferenceTracker = new Set<AnyPluginName>();
   const pluginOrder = new Set<AnyPluginName>();
-  const plugins: Config['plugins'] = {};
+  const plugins: Config["plugins"] = {};
 
   const dfs = (name: AnyPluginName) => {
     if (circularReferenceTracker.has(name)) {
@@ -104,7 +104,7 @@ const getPluginsConfig = ({
       const pluginConfig = pluginConfigs[name as PluginNames];
       if (!pluginConfig) {
         throw new Error(
-          `🚫 unknown plugin dependency "${name}" - do you need to register a custom plugin with this name?`,
+          `🚫 unknown plugin dependency "${name}" - do you need to register a custom plugin with this name?`
         );
       }
 
@@ -112,11 +112,11 @@ const getPluginsConfig = ({
       const userOptions = userPluginsConfig[name as PluginNames];
       if (userOptions && defaultOptions) {
         const nativePluginOption = Object.keys(userOptions).find((key) =>
-          key.startsWith('_'),
+          key.startsWith("_")
         );
         if (nativePluginOption) {
           throw new Error(
-            `🚫 cannot register plugin "${name}" - attempting to override a native plugin option "${nativePluginOption}"`,
+            `🚫 cannot register plugin "${name}" - attempting to override a native plugin option "${nativePluginOption}"`
           );
         }
       }
@@ -131,7 +131,7 @@ const getPluginsConfig = ({
         const context: PluginContext = {
           ensureDependency: (dependency) => {
             if (
-              typeof dependency === 'string' &&
+              typeof dependency === "string" &&
               !config._dependencies.includes(dependency)
             ) {
               config._dependencies = [...config._dependencies, dependency];
@@ -177,13 +177,13 @@ const getPluginsConfig = ({
 };
 
 const getPlugins = (
-  userConfig: ClientConfig,
-): Pick<Config, 'plugins' | 'pluginOrder'> => {
-  const userPluginsConfig: Config['plugins'] = {};
+  userConfig: ClientConfig
+): Pick<Config, "plugins" | "pluginOrder"> => {
+  const userPluginsConfig: Config["plugins"] = {};
 
   const userPlugins = (userConfig.plugins ?? defaultPlugins)
     .map((plugin) => {
-      if (typeof plugin === 'string') {
+      if (typeof plugin === "string") {
         return plugin;
       }
 
@@ -207,19 +207,19 @@ const getPlugins = (
 };
 
 const getWatch = (
-  userConfig: Pick<ClientConfig, 'watch'> & Pick<Config, 'input'>,
-): Config['watch'] => {
-  let watch: Config['watch'] = {
+  userConfig: Pick<ClientConfig, "watch"> & Pick<Config, "input">
+): Config["watch"] => {
+  let watch: Config["watch"] = {
     enabled: false,
     interval: 1000,
   };
   // we cannot watch spec passed as an object
-  if (typeof userConfig.input.path !== 'string') {
+  if (typeof userConfig.input.path !== "string") {
     return watch;
   }
-  if (typeof userConfig.watch === 'boolean') {
+  if (typeof userConfig.watch === "boolean") {
     watch.enabled = userConfig.watch;
-  } else if (typeof userConfig.watch === 'number') {
+  } else if (typeof userConfig.watch === "number") {
     watch = {
       enabled: true,
       interval: userConfig.watch,
@@ -237,19 +237,19 @@ const getWatch = (
  * Default plugins used to generate artifacts if plugins aren't specified.
  */
 export const defaultPlugins = [
-  '@hey-api/typescript',
-  '@hey-api/sdk',
-] as const satisfies ReadonlyArray<UserPlugins['name']>;
+  "@hey-api/typescript",
+  "@hey-api/sdk",
+] as const satisfies ReadonlyArray<UserPlugins["name"]>;
 
 export const initConfigs = async (
-  userConfig: UserConfig,
+  userConfig: UserConfig
 ): Promise<Config[]> => {
   const userConfigs: ClientConfig[] = [userConfig];
 
   return userConfigs.map((userConfig) => {
     const {
       base,
-      configFile = '',
+      configFile = "",
       dryRun = false,
       experimentalParser = true,
       exportCore = true,
@@ -260,8 +260,8 @@ export const initConfigs = async (
 
     const logs = getLogs(userConfig);
 
-    if (logs.level === 'debug') {
-      console.warn('userConfig:', userConfig);
+    if (logs.level === "debug") {
+      console.warn("userConfig:", userConfig);
     }
 
     const input = getInput(userConfig);
@@ -269,25 +269,25 @@ export const initConfigs = async (
 
     if (!input.path) {
       throw new Error(
-        '🚫 missing input - which OpenAPI specification should we use to generate your client?',
+        "🚫 missing input - which OpenAPI specification should we use to generate your client?"
       );
     }
 
     if (!output.path) {
       throw new Error(
-        '🚫 missing output - where should we generate your client?',
+        "🚫 missing output - where should we generate your client?"
       );
     }
 
     const client = getClient(userConfig);
 
     if (client.name && !CLIENTS.includes(client.name)) {
-      throw new Error('🚫 invalid client - select a valid client value');
+      throw new Error("🚫 invalid client - select a valid client value");
     }
 
     if (!useOptions) {
       console.warn(
-        '❗️ Deprecation warning: useOptions set to false. This setting will be removed in future versions. Please migrate useOptions to true https://heyapi.dev/openapi-ts/migrating.html#v0-27-38',
+        "❗️ Deprecation warning: useOptions set to false. This setting will be removed in future versions. Please migrate useOptions to true https://heyapi.dev/openapi-ts/migrating.html#v0-27-38"
       );
     }
 
@@ -308,8 +308,8 @@ export const initConfigs = async (
       watch: getWatch({ ...userConfig, input }),
     });
 
-    if (logs.level === 'debug') {
-      console.warn('config:', config);
+    if (logs.level === "debug") {
+      console.warn("config:", config);
     }
 
     return config;
